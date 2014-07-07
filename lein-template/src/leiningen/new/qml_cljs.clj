@@ -18,4 +18,4 @@
              ["resources/main.qml" (render "main.qml" data)]
              ["{{sanitized}}.pro" (render "example.pro" data)]
              ["deployment.pri" (render "deployment.pri" data)]
-             ["README.md" (render "README.md")])))
+             ["README.md" (render "README.md" data)])))
