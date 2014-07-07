@@ -1,4 +1,4 @@
-(defproject qml-cljs "0.1.0-SNAPSHOT"
+(defproject qml-cljs "0.0.0-SNAPSHOT"
   :description "FIXME: write this!"
   :url "http://example.com/FIXME"
   :exclusions
@@ -35,6 +35,5 @@
                                      :output-dir "out"
                                      :optimizations :whitespace
                                      :pretty-print true
-;;                                   :preamble ["qml_preamble.js"]
-                                     :target :qml}}]}
-    }})
+                                     :preamble ["qml_cljs/qml_preamble.js"]
+                                     :target :qml}}]}}})

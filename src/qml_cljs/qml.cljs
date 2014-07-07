@@ -1,9 +1,18 @@
 (ns qml-cljs.qml
   (:require-macros [qml-cljs.macros :refer [qml-import]]))
 
-(def ^:private id (atom 0))
+(defn- qt-type [x]
+  (let [s (str x)
+        i (.indexOf s "(")]
+    (.substr s 0 i)))
 
-(qml-import [QtQml "2.0" QtObject])
+(defn qtype [x]
+  (when-not (nil? x)
+    (if (.isQtObject js/Qt x)
+      (qt-type x)
+      (.-constructor x))))
+
+(def ^:private id (atom 0))
 
 (defn create-qml-component-fn [uri version comp-name]
   (let [txt (str "import " uri " " version "; " comp-name " { ")]
@@ -12,15 +21,18 @@
       (fn [parent & forms]
         (.createQmlObject
          js/Qt
-         (str txt "}")
+         (str txt (apply str forms) "}")
          parent
          (str "qml_cljs.qml.auto" (swap! id inc))))
       {:uri uri
        :version version
        :component comp-name})))
 
+(qml-import [QtQml "2.0" QtObject])
+
+
 (defn test-import [uri version comp-name]
-  (create-qml-component-fn uri version comp-name))
+  ((create-qml-component-fn uri version comp-name) js/global))
 
 (defn qml-component [form])
 
